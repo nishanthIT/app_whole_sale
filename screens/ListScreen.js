@@ -247,6 +247,272 @@
 
 
 
+// import React, { useState } from 'react';
+// import {
+//   View,
+//   Text,
+//   TouchableOpacity,
+//   StyleSheet,
+//   Modal,
+//   TextInput,
+//   ScrollView,
+//   Alert,
+//   KeyboardAvoidingView,
+//   Platform,
+//   Keyboard,
+//   TouchableWithoutFeedback,
+//   SafeAreaView,
+// } from 'react-native';
+// import ListScreen from './sortedList';
+
+// const CreateListPage = ({navigation}) => {
+//   const [modalVisible, setModalVisible] = useState(false);
+//   const [listName, setListName] = useState('');
+//   const [description, setDescription] = useState('');
+//   const [lists, setLists] = useState([]);
+
+//   const handleCreateList = () => {
+//     if (!listName.trim() || !description.trim()) {
+//       Alert.alert('Error', 'Please fill out both the list name and description.');
+//       return;
+//     }
+
+//     const newList = {
+//       id: Date.now().toString(),
+//       name: listName,
+//       description,
+//       productCount: Math.floor(Math.random() * 100),
+//     };
+//     setLists([...lists, newList]);
+//     setListName('');
+//     setDescription('');
+//     setModalVisible(false);
+//   };
+
+//   const handleDeleteList = (id) => {
+//     setLists(lists.filter((list) => list.id !== id));
+//   };
+
+//   const dismissKeyboard = () => {
+//     Keyboard.dismiss();
+//   };
+
+//   return (
+//     <SafeAreaView style={styles.safeArea}>
+//       <View style={styles.container}>
+//         {lists.length === 0 ? (
+//           <Text style={styles.emptyText}>No lists available. Create a new one!</Text>
+//         ) : (
+//           <ScrollView style={styles.listContainer}>
+//             {lists.map((list) => (
+//               <TouchableOpacity   onPress={() => navigation.navigate('sortedList')}>
+//               <View key={list.id} style={styles.listItem}>
+//                 <View style={styles.listInfo}>
+//                   <Text style={styles.listItemText}>{list.name}</Text>
+//                   <Text style={styles.listDescription}>
+//                     {list.description} • {list.productCount} products
+//                   </Text>
+//                 </View>
+//                 <TouchableOpacity
+//                   style={styles.deleteButton}
+//                   onPress={() => handleDeleteList(list.id)}
+//                 >
+//                   <Text style={styles.deleteButtonText}>Delete</Text>
+//                 </TouchableOpacity>
+//               </View>
+//               </TouchableOpacity>
+//             ))}
+//           </ScrollView>
+//         )}
+
+//         {/* Create New List Button */}
+//         <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
+//           <Text style={styles.addButtonText}>Create New List</Text>
+//         </TouchableOpacity>
+
+//         <Modal
+//           animationType="slide"
+//           transparent={true}
+//           visible={modalVisible}
+//           onRequestClose={() => setModalVisible(false)}
+//         >
+//           <TouchableWithoutFeedback onPress={dismissKeyboard}>
+//             <View style={styles.modalContainer}>
+//               <KeyboardAvoidingView
+//                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+//                 style={styles.modalContent}
+//               >
+//                 <Text style={styles.modalTitle}>Create a New List</Text>
+
+//                 <TextInput
+//                   style={styles.input}
+//                   placeholder="List Name"
+//                   value={listName}
+//                   onChangeText={setListName}
+//                 />
+
+//                 <TextInput
+//                   style={[styles.input, styles.textArea]}
+//                   placeholder="Description"
+//                   value={description}
+//                   onChangeText={setDescription}
+//                   multiline
+//                 />
+
+//                 <TouchableOpacity style={styles.modalButton} onPress={handleCreateList}>
+//                   <Text style={styles.modalButtonText}>Create List</Text>
+//                 </TouchableOpacity>
+
+//                 <TouchableOpacity onPress={() => setModalVisible(false)}>
+//                   <Text style={styles.cancelButton}>Cancel</Text>
+//                 </TouchableOpacity>
+//               </KeyboardAvoidingView>
+//             </View>
+//           </TouchableWithoutFeedback>
+//         </Modal>
+//       </View>
+//     </SafeAreaView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   safeArea: {
+//     flex: 1,
+//     backgroundColor: '#f8f9fa',
+//   },
+//   container: {
+//     flex: 1,
+//     padding: 20,
+//     paddingTop: 40,
+//     backgroundColor: '#f8f9fa',
+//   },
+//   emptyText: {
+//     textAlign: 'center',
+//     color: '#888',
+//     fontSize: 16,
+//   },
+//   listContainer: {
+//     marginBottom: 80, // Leave space for the button
+//   },
+//   listItem: {
+//     backgroundColor: '#fff',
+//     padding: 15,
+//     borderRadius: 8,
+//     marginBottom: 10,
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 2 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 3,
+//     elevation: 2,
+//   },
+//   listInfo: {
+//     flex: 1,
+//   },
+//   listItemText: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#333',
+//   },
+//   listDescription: {
+//     fontSize: 14,
+//     color: '#666',
+//     marginTop: 5,
+//   },
+//   deleteButton: {
+//     backgroundColor: '#ff4d4d',
+//     paddingVertical: 8,
+//     paddingHorizontal: 15,
+//     borderRadius: 8,
+//   },
+//   deleteButtonText: {
+//     color: '#fff',
+//     fontSize: 14,
+//     fontWeight: 'bold',
+//   },
+//   addButton: {
+//     backgroundColor: '#007bff',
+//     paddingVertical: 15,
+//     borderRadius: 8,
+//     alignItems: 'center',
+//     position: 'absolute', // Make the button fixed
+//     bottom: 20, // Position it above the bottom edge
+//     left: 20,
+//     right: 20,
+//   },
+//   addButtonText: {
+//     color: '#fff',
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+//   modalContainer: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+//   },
+//   modalContent: {
+//     backgroundColor: '#fff',
+//     padding: 20,
+//     borderRadius: 8,
+//     width: '90%',
+//     alignItems: 'center',
+//   },
+//   modalTitle: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//     marginBottom: 20,
+//     color: '#333',
+//   },
+//   input: {
+//     width: '100%',
+//     height: 50,
+//     borderColor: '#ccc',
+//     borderWidth: 1,
+//     borderRadius: 8,
+//     paddingHorizontal: 10,
+//     marginBottom: 15,
+//     backgroundColor: '#fff',
+//   },
+//   textArea: {
+//     height: 100,
+//     textAlignVertical: 'top',
+//   },
+//   modalButton: {
+//     backgroundColor: '#007bff',
+//     paddingVertical: 15,
+//     borderRadius: 8,
+//     alignItems: 'center',
+//     width: '100%',
+//     marginBottom: 10,
+//   },
+//   modalButtonText: {
+//     color: '#fff',
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+//   cancelButton: {
+//     color: '#007bff',
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//     margin:8
+//   },
+// });
+// CreateListPage.navigationOptions = () => {
+//   return {
+//     headerShown: false,
+//   };
+// };
+
+
+// export default CreateListPage;
+
+
+
+
 import React, { useState } from 'react';
 import {
   View,
@@ -262,110 +528,268 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   SafeAreaView,
+  Animated,
+  Dimensions,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import ListScreen from './sortedList';
 
-const CreateListPage = ({navigation}) => {
+const { width, height } = Dimensions.get('window');
+
+const CreateListPage = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [listName, setListName] = useState('');
-  const [description, setDescription] = useState('');
   const [lists, setLists] = useState([]);
+  const [fadeAnim] = useState(new Animated.Value(0));
+  const [slideAnim] = useState(new Animated.Value(50));
+
+  React.useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
 
   const handleCreateList = () => {
-    if (!listName.trim() || !description.trim()) {
-      Alert.alert('Error', 'Please fill out both the list name and description.');
+    if (!listName.trim()) {
+      Alert.alert('Missing Information', 'Please enter a list name.', [
+        { text: 'OK', style: 'default' }
+      ]);
       return;
     }
 
     const newList = {
       id: Date.now().toString(),
       name: listName,
-      description,
-      productCount: Math.floor(Math.random() * 100),
+      productCount: Math.floor(Math.random() * 50) + 1,
+      createdAt: new Date().toLocaleDateString(),
+      color: getRandomColor(),
     };
-    setLists([...lists, newList]);
+    
+    setLists([newList, ...lists]);
     setListName('');
-    setDescription('');
     setModalVisible(false);
+    
+    // Success feedback
+    Alert.alert('Success!', 'List created successfully', [
+      { text: 'OK', style: 'default' }
+    ]);
   };
 
-  const handleDeleteList = (id) => {
-    setLists(lists.filter((list) => list.id !== id));
+  const getRandomColor = () => {
+    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
+
+  const handleDeleteList = (id, listName) => {
+    Alert.alert(
+      'Delete List',
+      `Are you sure you want to delete "${listName}"?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Delete', 
+          style: 'destructive',
+          onPress: () => setLists(lists.filter((list) => list.id !== id))
+        }
+      ]
+    );
   };
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
   };
 
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setListName('');
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
+      {/* Header */}
+      <Animated.View 
+        style={[
+          styles.header,
+          {
+            opacity: fadeAnim,
+            transform: [{ translateY: slideAnim }]
+          }
+        ]}
+      >
+        <View style={styles.headerContent}>
+          <Text style={styles.headerTitle}>My Lists</Text>
+          <Text style={styles.headerSubtitle}>
+            {lists.length === 0 ? 'Create your first list' : `${lists.length} ${lists.length === 1 ? 'list' : 'lists'}`}
+          </Text>
+        </View>
+        {/* <TouchableOpacity style={styles.headerButton} onPress={openModal}>
+          <Ionicons name="add" size={24} color="#fff" />
+        </TouchableOpacity> */}
+      </Animated.View>
+
       <View style={styles.container}>
         {lists.length === 0 ? (
-          <Text style={styles.emptyText}>No lists available. Create a new one!</Text>
+          <Animated.View 
+            style={[
+              styles.emptyState,
+              {
+                opacity: fadeAnim,
+                transform: [{ translateY: slideAnim }]
+              }
+            ]}
+          >
+            <View style={styles.emptyIconContainer}>
+              <Ionicons name="list-outline" size={80} color="#E0E6ED" />
+            </View>
+            <Text style={styles.emptyTitle}>No Lists Yet</Text>
+            <Text style={styles.emptySubtitle}>
+              Create your first shopping list{'\n'}to get started organizing!
+            </Text>
+            <TouchableOpacity style={styles.primaryButton} onPress={openModal}>
+              <Ionicons name="add-circle" size={20} color="#fff" style={styles.buttonIcon} />
+              <Text style={styles.primaryButtonText}>Create Your First List</Text>
+            </TouchableOpacity>
+          </Animated.View>
         ) : (
-          <ScrollView style={styles.listContainer}>
-            {lists.map((list) => (
-              <TouchableOpacity   onPress={() => navigation.navigate('sortedList')}>
-              <View key={list.id} style={styles.listItem}>
-                <View style={styles.listInfo}>
-                  <Text style={styles.listItemText}>{list.name}</Text>
-                  <Text style={styles.listDescription}>
-                    {list.description} • {list.productCount} products
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  style={styles.deleteButton}
-                  onPress={() => handleDeleteList(list.id)}
+          <ScrollView 
+            style={styles.listContainer}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollContent}
+          >
+            {lists.map((list, index) => (
+              <Animated.View
+                key={list.id}
+                style={[
+                  styles.listCard,
+                  {
+                    opacity: fadeAnim,
+                    transform: [{ translateY: slideAnim }]
+                  }
+                ]}
+              >
+                <TouchableOpacity 
+                  style={styles.listCardContent}
+                  onPress={() => navigation.navigate('sortedList')}
+                  activeOpacity={0.7}
                 >
-                  <Text style={styles.deleteButtonText}>Delete</Text>
+                  <View style={styles.listCardLeft}>
+                    <View style={[styles.listColorIndicator, { backgroundColor: list.color }]} />
+                    <View style={styles.listCardInfo}>
+                      <Text style={styles.listTitle}>{list.name}</Text>
+                      <View style={styles.listMeta}>
+                        <Ionicons name="cube-outline" size={14} color="#8F9BB3" />
+                        <Text style={styles.listMetaText}>
+                          {list.productCount} {list.productCount === 1 ? 'item' : 'items'}
+                        </Text>
+                        <Ionicons name="calendar-outline" size={14} color="#8F9BB3" style={styles.metaIcon} />
+                        <Text style={styles.listMetaText}>{list.createdAt}</Text>
+                      </View>
+                    </View>
+                  </View>
+                  <TouchableOpacity
+                    style={styles.deleteButton}
+                    onPress={() => handleDeleteList(list.id, list.name)}
+                    activeOpacity={0.7}
+                  >
+                    <Ionicons name="trash-outline" size={18} color="#FF3D71" />
+                  </TouchableOpacity>
                 </TouchableOpacity>
-              </View>
-              </TouchableOpacity>
+              </Animated.View>
             ))}
           </ScrollView>
         )}
 
-        {/* Create New List Button */}
-        <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
-          <Text style={styles.addButtonText}>Create New List</Text>
-        </TouchableOpacity>
+        {/* Floating Action Button */}
+        {lists.length > 0 && (
+          <TouchableOpacity 
+            style={styles.floatingButton} 
+            onPress={openModal}
+            activeOpacity={0.8}
+          >
+            <Ionicons name="add" size={28} color="#fff" />
+          </TouchableOpacity>
+        )}
 
+        {/* Enhanced Modal */}
         <Modal
           animationType="slide"
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
+          onRequestClose={closeModal}
         >
           <TouchableWithoutFeedback onPress={dismissKeyboard}>
-            <View style={styles.modalContainer}>
+            <View style={styles.modalOverlay}>
               <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.modalContent}
+                style={styles.modalContainer}
               >
-                <Text style={styles.modalTitle}>Create a New List</Text>
+                <View style={styles.modalContent}>
+                  {/* Modal Header */}
+                  <View style={styles.modalHeader}>
+                    <TouchableOpacity onPress={closeModal} style={styles.modalCloseButton}>
+                      <Ionicons name="close" size={24} color="#8F9BB3" />
+                    </TouchableOpacity>
+                    <Text style={styles.modalTitle}>Create New List</Text>
+                    <View style={styles.modalHeaderSpacer} />
+                  </View>
 
-                <TextInput
-                  style={styles.input}
-                  placeholder="List Name"
-                  value={listName}
-                  onChangeText={setListName}
-                />
+                  {/* Modal Body */}
+                  <View style={styles.modalBody}>
+                    <View style={styles.inputContainer}>
+                      <Ionicons name="list" size={20} color="#8F9BB3" style={styles.inputIcon} />
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Enter list name"
+                        placeholderTextColor="#C5CEE0"
+                        value={listName}
+                        onChangeText={setListName}
+                        autoFocus={true}
+                        maxLength={30}
+                      />
+                    </View>
+                    
+                    <Text style={styles.inputHint}>
+                      Choose a descriptive name for your shopping list
+                    </Text>
+                  </View>
 
-                <TextInput
-                  style={[styles.input, styles.textArea]}
-                  placeholder="Description"
-                  value={description}
-                  onChangeText={setDescription}
-                  multiline
-                />
-
-                <TouchableOpacity style={styles.modalButton} onPress={handleCreateList}>
-                  <Text style={styles.modalButtonText}>Create List</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => setModalVisible(false)}>
-                  <Text style={styles.cancelButton}>Cancel</Text>
-                </TouchableOpacity>
+                  {/* Modal Footer */}
+                  <View style={styles.modalFooter}>
+                    <TouchableOpacity 
+                      style={styles.secondaryButton} 
+                      onPress={closeModal}
+                      activeOpacity={0.7}
+                    >
+                      <Text style={styles.secondaryButtonText}>Cancel</Text>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity 
+                      style={[
+                        styles.primaryButton,
+                        !listName.trim() && styles.disabledButton
+                      ]} 
+                      onPress={handleCreateList}
+                      activeOpacity={0.7}
+                      disabled={!listName.trim()}
+                    >
+                      <Ionicons name="checkmark-circle" size={20} color="#fff" style={styles.buttonIcon} />
+                      <Text style={styles.primaryButtonText}>Create List</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </KeyboardAvoidingView>
             </View>
           </TouchableWithoutFeedback>
@@ -378,134 +802,281 @@ const CreateListPage = ({navigation}) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#F7F9FC',
   },
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingTop: 40,
-    backgroundColor: '#f8f9fa',
-  },
-  emptyText: {
-    textAlign: 'center',
-    color: '#888',
-    fontSize: 16,
-  },
-  listContainer: {
-    marginBottom: 80, // Leave space for the button
-  },
-  listItem: {
+  header: {
     backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    elevation: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
+    shadowRadius: 8,
   },
-  listInfo: {
+  headerContent: {
     flex: 1,
   },
-  listItemText: {
-    fontSize: 18,
+  headerTitle: {
+    fontSize: 28,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#192038',
+    marginBottom: 4,
   },
-  listDescription: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 5,
-  },
-  deleteButton: {
-    backgroundColor: '#ff4d4d',
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    borderRadius: 8,
-  },
-  deleteButtonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  addButton: {
-    backgroundColor: '#007bff',
-    paddingVertical: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-    position: 'absolute', // Make the button fixed
-    bottom: 20, // Position it above the bottom edge
-    left: 20,
-    right: 20,
-  },
-  addButtonText: {
-    color: '#fff',
+  headerSubtitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    color: '#8F9BB3',
   },
-  modalContainer: {
+  headerButton: {
+    backgroundColor: '#5B67CA',
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 4,
+    shadowColor: '#5B67CA',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#F7F9FC',
+  },
+  emptyState: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    paddingHorizontal: 40,
+  },
+  emptyIconContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#F7F9FC',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 24,
+    borderWidth: 2,
+    borderColor: '#E4E9F2',
+    borderStyle: 'dashed',
+  },
+  emptyTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#192038',
+    marginBottom: 12,
+  },
+  emptySubtitle: {
+    fontSize: 16,
+    color: '#8F9BB3',
+    textAlign: 'center',
+    lineHeight: 24,
+    marginBottom: 32,
+  },
+  listContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  scrollContent: {
+    paddingTop: 20,
+    paddingBottom: 100,
+  },
+  listCard: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    marginBottom: 16,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+  },
+  listCardContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+  },
+  listCardLeft: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  listColorIndicator: {
+    width: 4,
+    height: 40,
+    borderRadius: 2,
+    marginRight: 16,
+  },
+  listCardInfo: {
+    flex: 1,
+  },
+  listTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#192038',
+    marginBottom: 8,
+  },
+  listMeta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  listMetaText: {
+    fontSize: 14,
+    color: '#8F9BB3',
+    marginLeft: 4,
+  },
+  metaIcon: {
+    marginLeft: 16,
+  },
+  deleteButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#FFF5F5',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 30,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#5B67CA',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 8,
+    shadowColor: '#5B67CA',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    justifyContent: 'flex-end',
+  },
+  modalContainer: {
+    justifyContent: 'flex-end',
   },
   modalContent: {
     backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 8,
-    width: '90%',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingBottom: Platform.OS === 'ios' ? 34 : 20,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E4E9F2',
+  },
+  modalCloseButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#F7F9FC',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   modalTitle: {
+    flex: 1,
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
+    color: '#192038',
+    textAlign: 'center',
+  },
+  modalHeaderSpacer: {
+    width: 40,
+  },
+  modalBody: {
+    paddingHorizontal: 20,
+    paddingVertical: 24,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F7F9FC',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    borderWidth: 2,
+    borderColor: '#E4E9F2',
+  },
+  inputIcon: {
+    marginRight: 12,
   },
   input: {
-    width: '100%',
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    marginBottom: 15,
-    backgroundColor: '#fff',
+    flex: 1,
+    height: 52,
+    fontSize: 16,
+    color: '#192038',
   },
-  textArea: {
-    height: 100,
-    textAlignVertical: 'top',
+  inputHint: {
+    fontSize: 14,
+    color: '#8F9BB3',
+    marginTop: 8,
+    marginLeft: 4,
   },
-  modalButton: {
-    backgroundColor: '#007bff',
-    paddingVertical: 15,
-    borderRadius: 8,
+  modalFooter: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    gap: 12,
+  },
+primaryButton: {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#5B67CA',
+  borderRadius: 12,
+  paddingVertical: 12,
+  paddingHorizontal: 20,
+  alignSelf: 'center',
+  maxWidth: 220,
+},
+primaryButtonText: {
+  color: '#fff',
+  fontSize: 14,
+  fontWeight: 'bold',
+}
+,
+  secondaryButton: {
+    flex: 1,
+    backgroundColor: '#F7F9FC',
+    borderRadius: 12,
+    paddingVertical: 16,
+    justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    marginBottom: 10,
+    borderWidth: 2,
+    borderColor: '#E4E9F2',
   },
-  modalButtonText: {
-    color: '#fff',
+  secondaryButtonText: {
+    color: '#8F9BB3',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
-  cancelButton: {
-    color: '#007bff',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    margin:8
+  buttonIcon: {
+    marginRight: 8,
+  },
+  disabledButton: {
+    backgroundColor: '#C5CEE0',
+    elevation: 0,
+    shadowOpacity: 0,
   },
 });
+
 CreateListPage.navigationOptions = () => {
   return {
     headerShown: false,
   };
 };
-
 
 export default CreateListPage;
