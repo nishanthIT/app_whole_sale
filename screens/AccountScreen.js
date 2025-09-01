@@ -2,13 +2,35 @@
 
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Switch } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Switch, Alert } from 'react-native';
 
-const AccountScreen = () => {
+const AccountScreen = ({ navigation }) => {
   const [isNotificationEnabled, setIsNotificationEnabled] = React.useState(false);
 
   const toggleSwitch = () => {
     setIsNotificationEnabled((previousState) => !previousState);
+  };
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Logout',
+          style: 'destructive',
+          onPress: () => {
+            // Clear any stored user data here (AsyncStorage, etc.)
+            // For now, navigate back to login flow
+            navigation.navigate('loginFlow');
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -103,7 +125,7 @@ const AccountScreen = () => {
       </View>
 
       {/* Logout Button */}
-      <TouchableOpacity style={styles.logoutButton}>
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutButtonText}>Logout</Text>
       </TouchableOpacity>
     </ScrollView>

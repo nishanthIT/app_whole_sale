@@ -73,6 +73,8 @@ import ScanScreen from './screens/ScanScreen';
 import ListItemDetails from './screens/ListItemDetails';
 import MainSearch from './screens/MainSearch';
 import sortedList from './screens/sortedList';
+import ChatScreen from './screens/ChatScreen';
+import PromotionScreen from './screens/PromotionScreen';
 
 
 const loginFlow = createStackNavigator({
@@ -94,6 +96,19 @@ const ScanFlow = createStackNavigator({
 
 const mainFlow = createMaterialBottomTabNavigator(
   {
+    Promotion: {
+      screen: PromotionScreen,
+      navigationOptions: {
+        tabBarLabel: 'Offers',
+        tabBarIcon: ({ focused }) => (
+          <Icon 
+            name="sale" 
+            color={focused ? '#0353a4' : 'white'} 
+            size={26} 
+          />
+        ),
+      },
+    },
     ListFlow: {
       screen: ListFlow,
       navigationOptions: {
@@ -121,6 +136,19 @@ const mainFlow = createMaterialBottomTabNavigator(
         ),
       },
     },
+    Chat: {
+      screen: ChatScreen,
+      navigationOptions: {
+        tabBarLabel: 'Chat',
+        tabBarIcon: ({ focused }) => (
+          <Icon 
+            name="chat" 
+            color={focused ? '#0353a4' : 'white'} 
+            size={26} 
+          />
+        ),
+      },
+    },
     Account: {
       screen: AccountScreen,
       navigationOptions: {
@@ -136,7 +164,7 @@ const mainFlow = createMaterialBottomTabNavigator(
     },
   },
   {
-    initialRouteName: 'ListFlow',
+    initialRouteName: 'Promotion',
     activeColor: '#0353a4', // Light gray for active icons
     inactiveColor: 'white', // White for inactive icons
     barStyle: {
