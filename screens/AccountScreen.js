@@ -2,7 +2,7 @@
 
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Switch, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Switch, Alert, Platform } from 'react-native';
 
 const AccountScreen = ({ navigation }) => {
   const [isNotificationEnabled, setIsNotificationEnabled] = React.useState(false);
@@ -128,6 +128,9 @@ const AccountScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutButtonText}>Logout</Text>
       </TouchableOpacity>
+      
+      {/* Extra spacing for bottom navigation */}
+      <View style={{ height: Platform.OS === 'android' ? 100 : 95 }} />
     </ScrollView>
   );
 };

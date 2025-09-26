@@ -782,23 +782,20 @@ const ScanScreen = ({ navigation }) => {
         </View>
       )}
 
-      {/* Search Section */}
-      <TouchableOpacity
-        style={styles.searchSection}
-        activeOpacity={0.7}
-        onPress={() => navigation.navigate('Main')}
-      >
-        <View style={styles.searchInput}>
-          <Ionicons name="search" size={20} color="#888" style={styles.icon} />
-          <TextInput
-            placeholder="Search for products..."
-            value={searchQuery}
-            editable={false}
-            pointerEvents="none"
-            style={styles.searchInputText}
-          />
-        </View>
-      </TouchableOpacity>
+      {/* Search Section - Minimalist Modern */}
+      <View style={styles.searchSection}>
+        <TouchableOpacity
+          style={styles.modernSearchButton}
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate('Main')}
+        >
+          <View style={styles.modernSearchContent}>
+            <Ionicons name="search-outline" size={22} color="#5b37b7" />
+            <Text style={styles.modernSearchText}>Search Products Manually</Text>
+            <Ionicons name="chevron-forward" size={20} color="#5b37b7" />
+          </View>
+        </TouchableOpacity>
+      </View>
 
       {/* Dropdown Modal */}
       <Modal
@@ -853,6 +850,9 @@ const ScanScreen = ({ navigation }) => {
           </View>
         </View>
       </Modal>
+      
+      {/* Extra spacing for PhonePe-style navigation */}
+      <View style={{ height: Platform.OS === 'android' ? 90 : 85 }} />
     </KeyboardAvoidingView>
   );
 };
@@ -1133,28 +1133,34 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   searchSection: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     paddingVertical: 15,
   },
-  searchInput: {
+  modernSearchButton: {
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    borderWidth: 1.5,
+    borderColor: '#e5e7eb',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  modernSearchContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-    paddingHorizontal: 15,
-    height: 50,
-    elevation: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    justifyContent: 'space-between',
   },
-  searchInputText: {
+  modernSearchText: {
     flex: 1,
     fontSize: 16,
-    marginLeft: 10,
+    color: '#374151',
+    fontWeight: '500',
+    marginLeft: 12,
+    marginRight: 8,
   },
   modalOverlay: {
     flex: 1,

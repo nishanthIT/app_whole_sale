@@ -24,6 +24,7 @@ const ChatScreen = () => {
   const [personalMessages, setPersonalMessages] = useState({});
   const [showUserList, setShowUserList] = useState(false);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [isInputFocused, setIsInputFocused] = useState(false); // Track input focus
   const flatListRef = useRef(null);
 
   // Mock data - Replace with actual API calls
@@ -362,6 +363,14 @@ const ChatScreen = () => {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
+          {activeTab === 'personal' && selectedPersonalChat && (
+            <TouchableOpacity
+              style={[styles.headerButton, { marginRight: 10 }]}
+              onPress={() => setSelectedPersonalChat(null)}
+            >
+              <Icon name="arrow-left" size={26} color="#fff" />
+            </TouchableOpacity>
+          )}
           <Text style={styles.headerTitle}>
             {activeTab === 'group' ? 'Group Chat' : selectedPersonalChat ? 
               personalChats.find(chat => chat.id === selectedPersonalChat)?.name || 'Personal Chat'
@@ -476,7 +485,7 @@ const ChatScreen = () => {
 
       {/* Message Input */}
       {(activeTab === 'group' || selectedPersonalChat) && (
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, isInputFocused && styles.inputContainerFocused]}>
           <TextInput
             style={styles.textInput}
             value={message}
@@ -485,12 +494,17 @@ const ChatScreen = () => {
             placeholderTextColor="#999"
             multiline
             maxLength={500}
+            onFocus={() => setIsInputFocused(true)}
+            onBlur={() => setIsInputFocused(false)}
           />
           <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
             <Icon name="send" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
       )}
+
+      {/* Dynamic spacing - only when input is not focused */}
+      {!isInputFocused && <View style={{ height: Platform.OS === 'android' ? 90 : 85 }} />}
 
       {/* User List Modal */}
       <Modal
@@ -727,30 +741,43 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 12,
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#eee',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  inputContainerFocused: {
+    paddingBottom: 12, // Normal padding when focused (keyboard open)
   },
   textInput: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#007bff',
     borderRadius: 25,
     paddingHorizontal: 15,
     paddingVertical: 12,
     maxHeight: 100,
     fontSize: 16,
     backgroundColor: '#f8f9fa',
+    marginRight: 10,
   },
   sendButton: {
     backgroundColor: '#007bff',
     borderRadius: 25,
-    width: 45,
-    height: 45,
+    width: 48,
+    height: 48,
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 10,
+    shadowColor: '#007bff',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
   emptyContainer: {
     flex: 1,
